@@ -17,5 +17,5 @@ to_iso8601 <- function(date_time, days_offset){
   return(iso_8601_adjusted_time)
 }
 
-
+#testing the function
 to_iso8601(as_datetime("2016-09-01 10:11:12"),-4)

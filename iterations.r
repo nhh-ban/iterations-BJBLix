@@ -45,6 +45,19 @@ stations_metadata_df <-
 source("functions/data_tests.r")
 test_stations_metadata(stations_metadata_df)
 
+#### 4: checking if the query works
+source("gql-queries/vol_qry.r")
+
+GQL(
+  vol_qry(
+    id=stations_metadata_df$id[1], 
+    from=to_iso8601(stations_metadata_df$latestData[1],-4),
+    to=to_iso8601(stations_metadata_df$latestData[1],0)
+  ),
+  .url = configs$vegvesen_url
+)
+
+
 
 ### 5: Final volume query: 
 
