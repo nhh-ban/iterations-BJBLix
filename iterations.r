@@ -64,25 +64,7 @@ GQL(
 )
 
 
-# Revised the plot
-stations_metadata_df %>% 
-  filter(latestData > Sys.Date() - days(7)) %>% 
-  sample_n(1) %$% 
-  vol_qry(
-    id = id,
-    from = to_iso8601(latestData, -4),
-    to = to_iso8601(latestData, 0)
-  ) %>% 
-  GQL(., .url = configs$vegvesen_url) %>%
-  transform_volumes() %>% 
-  ggplot(aes(x=from, y=volume)) + 
-  geom_line() + 
-  theme_grey() +
-  ggtitle("Trafikkdata for de siste 7 dagene - Trafikkstasjon:{}") +
-  ylab("Trafikkvolum") +
-  xlab("Dato")
-
-# I am saving the random station extracted as a variable
+# I am saving a random station extracted as a variable
 # so it is easier to extract the name for the plot legend
 sampled_station <- stations_metadata_df %>% 
   filter(latestData > Sys.Date() - days(7)) %>% 
@@ -98,8 +80,8 @@ sampled_station %$%
   GQL(.url = configs$vegvesen_url) %>%
   transform_volumes() %>% 
   ggplot(aes(x=from, y=volume)) + 
-  geom_line(color = "blue", size = 1.2) + 
-  geom_area(aes(x=from, y=volume), fill="skyblue", alpha=0.2) + # adding a filler under line
+  geom_line(color = "black", size = 0.7) + 
+  geom_area(aes(x=from, y=volume), fill="grey", alpha=0.2) + # adding a filler under line
   scale_x_datetime(date_labels = "%b %d", date_breaks = "1 day") + # format x-axis
   theme_minimal() +  # use a different theme
   theme(
@@ -107,9 +89,10 @@ sampled_station %$%
     axis.title.x = element_text(face="bold", size=12),
     axis.title.y = element_text(face="bold", size=12),
     axis.text.x = element_text(angle=45, hjust=1)
-  ) +  # adjust text elements
+  ) +  # adjusting text elements
   labs(
     title = glue::glue("Trafikkdata for de siste 7 dagene - Trafikkstasjon: {sampled_station$name}"),
     y = "Trafikkvolum",
     x = "Dato"
   ) 
+
