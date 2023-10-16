@@ -1,3 +1,5 @@
+
+# making a volume query function
 vol_qry <- function(id, from, to) {
   query <- glue::glue('{
     trafficData(trafficRegistrationPointId: "{{id}}") {
@@ -17,6 +19,6 @@ vol_qry <- function(id, from, to) {
         }
       }
     }
-  }', .open = "{{", .close = "}}")
+  }', .open = "{{", .close = "}}") #to resolve syntax issues
   return(query)
 }
